@@ -56,27 +56,13 @@ class Movie(Base):
     def __repr__(self):
         return f"<Movie(title='{self.title}', year='{self.year}', rating='{self.rating}')>"
  
-#data
+
 Base.metadata.create_all(bind=engine)
  
 
 db = SessionLocal()
  
 
-# new_director = Director(name="Christopher Nolan", age=1970)
-# db.add(new_director)
-# db.commit()
- 
-
-# new_genre = Genre(name="Science Fiction")
-# db.add(new_genre)
-# db.commit()
- 
-
-# new_movie = Movie(title="Inception", director_id=new_director.id, year=2010, rating=8.8, genre_id=new_genre.id)
-# db.add(new_movie)
-# db.commit()
- 
 
 directors = db.query(Director).all()
 for director in directors:

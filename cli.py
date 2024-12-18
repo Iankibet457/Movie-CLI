@@ -10,7 +10,7 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 def init_db():
-    # Initialize Database
+    
     Base.metadata.create_all(engine)
     print("Database Initialized")
 
