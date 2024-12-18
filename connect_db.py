@@ -20,12 +20,12 @@ class Director(Base):
  
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    birth_year = Column(Integer)
+    age = Column(Integer)
  
     movies = relationship("Movie", back_populates="director")
  
     def __repr__(self):
-        return f"<Director(name='{self.name}', birth_year='{self.birth_year}')>"
+        return f"<Director(name='{self.name}', age='{self.age}')>"
  
 
 class Genre(Base):
@@ -63,7 +63,7 @@ Base.metadata.create_all(bind=engine)
 db = SessionLocal()
  
 
-# new_director = Director(name="Christopher Nolan", birth_year=1970)
+# new_director = Director(name="Christopher Nolan", age=1970)
 # db.add(new_director)
 # db.commit()
  

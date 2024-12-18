@@ -9,10 +9,10 @@ engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# def init_db():
-#     # Initialize Database
-#     Base.metadata.create_all(engine)
-#     print("Database Initialized")
+def init_db():
+    # Initialize Database
+    Base.metadata.create_all(engine)
+    print("Database Initialized")
 
 def create_movie():
     title = input("Enter movie title: ")
@@ -50,11 +50,22 @@ def delete_movie():
 
 def create_director():
     name = input("Enter director name: ")
-    birth_year = int(input("Enter director birth year: "))
-    director = Director(name=name, birth_year=birth_year)
+    age = int(input("Enter director age: "))
+    director = Director(name=name, age=age)
     session.add(director)
     session.commit()
     print(f"Director '{name}' created with ID {director.id}")
+
+def update_director():
+    director_id = int(input("Enter director ID to update: "))
+    director = session.get(Director, director_id)
+    if not director:
+        print(f"Director with ID {director_id} does not exist.")
+        return
+    director.name = input(f"Enter new name for director (current: {director.name}): ") or director.name
+    director.age = int(input(f"Enter new age for director (current: {director.age}): ") or director.age)
+    session.commit()
+    print(f"Director ID {director_id} updated successfully")
 
 def list_directors_and_movies():
     directors = session.query(Director).all()
@@ -86,10 +97,10 @@ def view_movies_by_director():
 def main_menu():
     while True:
         print("\nWelcome to the Movie Management Application. What would you like to do?")
-        print("1. Create Movie")
-        print("2. Update Movie")
-        print("3. Delete Movie")
-        print("4. Create Director")
+        print("1. Create Director")  # Moved to the first option
+        print("2. Create Movie")
+        print("3. Update Movie")
+        print("4. Delete Movie")
         print("5. List Directors and Movies")
         print("6. View Movies by Genre")
         print("7. View Movies by Director")
@@ -97,13 +108,13 @@ def main_menu():
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            create_movie()
-        elif choice == "2":
-            update_movie()
-        elif choice == "3":
-            delete_movie()
-        elif choice == "4":
             create_director()
+        elif choice == "2":
+            create_movie()
+        elif choice == "3":
+            update_movie()
+        elif choice == "4":
+            delete_movie()
         elif choice == "5":
             list_directors_and_movies()
         elif choice == "6":
@@ -117,5 +128,5 @@ def main_menu():
             print("Invalid choice. Please try again.")
 
 if __name__ == "__main__":
-    # init_db()
+    init_db()
     main_menu()
