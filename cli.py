@@ -56,16 +56,21 @@ def create_director():
     session.commit()
     print(f"Director '{name}' created with ID {director.id}")
 
-def update_director():
-    director_id = int(input("Enter director ID to update: "))
+def delete_director():
+    director_id = int(input("Enter director ID to delete: "))
     director = session.get(Director, director_id)
     if not director:
         print(f"Director with ID {director_id} does not exist.")
         return
-    director.name = input(f"Enter new name for director (current: {director.name}): ") or director.name
-    director.age = int(input(f"Enter new age for director (current: {director.age}): ") or director.age)
+    
+    # Check if director has any movies
+    if director.movies:
+        print(f"Cannot delete director. They have {len(director.movies)} movies assigned.")
+        return
+        
+    session.delete(director)
     session.commit()
-    print(f"Director ID {director_id} updated successfully")
+    print(f"Director ID {director_id} deleted successfully.")
 
 def list_directors_and_movies():
     directors = session.query(Director).all()
@@ -101,37 +106,59 @@ def create_genre():
     session.commit()
     print(f"Genre '{name}' created with ID {genre.id}")
 
+def delete_genre():
+    genre_id = int(input("Enter genre ID to delete: "))
+    genre = session.get(Genre, genre_id)
+    if not genre:
+        print(f"Genre with ID {genre_id} does not exist.")
+        return
+    
+    # Check if genre has any movies
+    if genre.movies:
+        print(f"Cannot delete genre. It has {len(genre.movies)} movies assigned.")
+        return
+        
+    session.delete(genre)
+    session.commit()
+    print(f"Genre ID {genre_id} deleted successfully.")
+
 def main_menu():
     while True:
         print("\nWelcome to the Movie Management Application. What would you like to do?")
         print("1. Create Director")
-        print("2. Create Genre")
-        print("3. Create Movie")
-        print("4. Update Movie")
-        print("5. Delete Movie")
-        print("6. List Directors and Movies")
-        print("7. View Movies by Genre")
-        print("8. View Movies by Director")
-        print("9. Exit")
+        print("2. Delete Director")
+        print("3. Create Genre")
+        print("4. Delete Genre")
+        print("5. Create Movie")
+        print("6. Update Movie")
+        print("7. Delete Movie")
+        print("8. List Directors and Movies")
+        print("9. View Movies by Genre")
+        print("10. View Movies by Director")
+        print("11. Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
             create_director()
         elif choice == "2":
-            create_genre()
+            delete_director()
         elif choice == "3":
-            create_movie()
+            create_genre()
         elif choice == "4":
-            update_movie()
+            delete_genre()
         elif choice == "5":
-            delete_movie()
+            create_movie()
         elif choice == "6":
-            list_directors_and_movies()
+            update_movie()
         elif choice == "7":
-            view_movies_by_genre()
+            delete_movie()
         elif choice == "8":
-            view_movies_by_director()
+            list_directors_and_movies()
         elif choice == "9":
+            view_movies_by_genre()
+        elif choice == "10":
+            view_movies_by_director()
+        elif choice == "11":
             print("Exiting.......")
             sys.exit()
         else:
