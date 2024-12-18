@@ -94,34 +94,44 @@ def view_movies_by_director():
     for movie in movies:
         print(movie)
 
+def create_genre():
+    name = input("Enter genre name: ")
+    genre = Genre(name=name)
+    session.add(genre)
+    session.commit()
+    print(f"Genre '{name}' created with ID {genre.id}")
+
 def main_menu():
     while True:
         print("\nWelcome to the Movie Management Application. What would you like to do?")
-        print("1. Create Director")  # Moved to the first option
-        print("2. Create Movie")
-        print("3. Update Movie")
-        print("4. Delete Movie")
-        print("5. List Directors and Movies")
-        print("6. View Movies by Genre")
-        print("7. View Movies by Director")
-        print("8. Exit")
+        print("1. Create Director")
+        print("2. Create Genre")
+        print("3. Create Movie")
+        print("4. Update Movie")
+        print("5. Delete Movie")
+        print("6. List Directors and Movies")
+        print("7. View Movies by Genre")
+        print("8. View Movies by Director")
+        print("9. Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
             create_director()
         elif choice == "2":
-            create_movie()
+            create_genre()
         elif choice == "3":
-            update_movie()
+            create_movie()
         elif choice == "4":
-            delete_movie()
+            update_movie()
         elif choice == "5":
-            list_directors_and_movies()
+            delete_movie()
         elif choice == "6":
-            view_movies_by_genre()
+            list_directors_and_movies()
         elif choice == "7":
-            view_movies_by_director()
+            view_movies_by_genre()
         elif choice == "8":
+            view_movies_by_director()
+        elif choice == "9":
             print("Exiting.......")
             sys.exit()
         else:
