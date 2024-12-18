@@ -28,6 +28,18 @@ class Director(Base):
         return f"<Director(name='{self.name}', birth_year='{self.birth_year}')>"
  
 
+class Genre(Base):
+    __tablename__ = 'genres'
+ 
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, index=True)
+ 
+    movies = relationship("Movie", back_populates="genre")
+
+    def __repr__(self):
+        return f"<Genre(name='{self.name}')>"
+ 
+
 class Movie(Base):
     __tablename__ = 'movies'
  
@@ -36,27 +48,34 @@ class Movie(Base):
     director_id = Column(Integer, ForeignKey('directors.id'))
     year = Column(Integer)
     rating = Column(Float)
+    genre_id = Column(Integer, ForeignKey('genres.id'))
  
     director = relationship("Director", back_populates="movies")
+    genre = relationship("Genre", back_populates="movies")
  
     def __repr__(self):
         return f"<Movie(title='{self.title}', year='{self.year}', rating='{self.rating}')>"
  
-
+#data
 Base.metadata.create_all(bind=engine)
  
 
 db = SessionLocal()
  
 
-new_director = Director(name="Christopher Nolan", birth_year=1970)
-db.add(new_director)
-db.commit()
+# new_director = Director(name="Christopher Nolan", birth_year=1970)
+# db.add(new_director)
+# db.commit()
  
 
-new_movie = Movie(title="Inception", director_id=new_director.id, year=2010, rating=8.8)
-db.add(new_movie)
-db.commit()
+# new_genre = Genre(name="Science Fiction")
+# db.add(new_genre)
+# db.commit()
+ 
+
+# new_movie = Movie(title="Inception", director_id=new_director.id, year=2010, rating=8.8, genre_id=new_genre.id)
+# db.add(new_movie)
+# db.commit()
  
 
 directors = db.query(Director).all()

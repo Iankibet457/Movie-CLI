@@ -1,0 +1,14 @@
+# Ignore the virtual environment
+movievenv/
+ 
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+ 
+# Ignore environment variable file
+.env
+ 
+# Ignore editor-specific files
+*.swp
+
