@@ -62,13 +62,6 @@ Base.metadata.create_all(bind=engine)
 
 db = SessionLocal()
  
-
-
-directors = db.query(Director).all()
-for director in directors:
-    print(director)
-    for movie in director.movies:
-        print(movie)
  
 
 db.close()
